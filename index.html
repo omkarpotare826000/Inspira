@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspira - Empowering Businesses with Seamless Digital Solutions</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Poppins & Inter -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Define a consistent, darker color scheme */
+        :root {
+            --bg-dark: #0d0d12;
+            --card-dark: #1a1a24;
+            --text-light: #e2e8f0;
+            --primary-brand: #6366f1; /* A strong blue-violet */
+            --secondary-brand: #ec4899; /* A vibrant pink */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+        }
+
+        /* Darker, more subtle hero gradient for cinematic feel */
+        .hero-gradient {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            animation: gradient-shift 15s ease infinite;
+            background-size: 200% 200%;
+        }
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Text gradient for the logo and headers */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, var(--primary-brand), var(--secondary-brand));
+        }
+
+        /* Custom animation for section visibility */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Testimonial carousel styles */
+        .testimonial-carousel-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .testimonial-carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 300%; /* Adjust based on number of cards */
+        }
+        .testimonial-card {
+            flex-shrink: 0;
+            width: calc(100% / 3); /* Adjust based on number of cards */
+            box-sizing: border-box;
+        }
+
+        /* Project Card hover effect */
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        /* Improved Team and FAQ Accordion styles */
+        .accordion-item {
+            border-bottom: 1px solid #2d3748;
+            background-color: #1a1a24;
+            margin-bottom: 1rem;
+            border-radius: 1rem;
+        }
+        .accordion-header {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+            padding: 0 1.5rem;
+        }
+        .accordion-content.open {
+            max-height: 200px; /* Adjust based on content length */
+            padding: 1rem 1.5rem 1.5rem 1.5rem;
+        }
+        .accordion-header:hover {
+            background-color: #2d3748;
+            border-radius: 1rem;
+        }
+
+        /* Dynamic Team Accordion styles */
+        .team-accordion-item {
+            cursor: pointer;
+            padding: 1.5rem;
+            background-color: #1a1a24;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s;
+        }
+        .team-accordion-item:hover {
+            background-color: #2d3748;
+        }
+        .team-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+            margin-top: 1rem; /* Added margin-top to separate content from header */
+        }
+        .team-content.open {
+            max-height: 1000px; /* Large enough to show all cards */
+        }
+        .team-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Hero text size and logo placement */
+        #hero-text-large {
+            font-size: 3.5rem; /* Custom size to be larger than 5xl, smaller than 7xl */
+            @media (min-width: 640px) {
+                font-size: 5rem; /* Custom size for sm screens and up */
+            }
+        }
+        .hero-logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .hero-logo-container img {
+            width: 180px; /* Increased size for the hero logo */
+            height: auto;
+            margin-bottom: 1rem; /* Space between logo and text */
+        }
+
+        /* Aesthetic Team Grid for Core Team */
+        .core-team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusted min-width for better fit */
+            gap: 2rem;
+            max-width: 90%;
+            margin: 0 auto;
+            padding-top: 2rem; /* Added padding to separate from heading */
+        }
+
+        /* Individual team grid for sub-teams and teachers */
+        .sub-team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 90%;
+            margin: 0 auto;
+            padding-top: 1rem;
+        }
+        
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-slate-900 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2">
+                <!-- New Inspira logo for navigation -->
+                <img src="Inspira.png" alt="Inspira Logo" class="w-10 h-10 rounded-full" style="width:100px;height:100px;">
+                <span class="text-2xl font-bold text-white font-poppins text-gradient"></span>
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#services" class="text-slate-300 hover:text-white transition duration-300">Services</a>
+                <a href="#projects" class="text-slate-300 hover:text-white transition duration-300">Our Projects</a>
+                <a href="#team" class="text-slate-300 hover:text-white transition duration-300">Team</a>
+                <a href="#contact" class="text-slate-300 hover:text-white transition duration-300">Contact</a>
+                <a href="#cta-links" class="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-full shadow-md hover:bg-indigo-700 transition duration-300">
+                    Get Started
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-slate-300 hover:text-white focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-900 shadow-lg">
+            <a href="#services" class="block py-4 px-6 text-slate-300 hover:bg-slate-800 transition duration-300">Services</a>
+            <a href="#projects" class="block py-4 px-6 text-slate-300 hover:bg-slate-800 transition duration-300">Our Projects</a>
+            <a href="#team" class="block py-4 px-6 text-slate-300 hover:bg-slate-800 transition duration-300">Team</a>
+            <a href="#contact" class="block py-4 px-6 text-slate-300 hover:bg-slate-800 transition duration-300">Contact</a>
+            <a href="#cta-links" class="block py-4 px-6 text-slate-300 hover:bg-slate-800 transition duration-300">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="hero-gradient py-24 sm:py-40">
+        <div class="container mx-auto px-6 text-center fade-in">
+            <div class="hero-logo-container hidden">
+                <img src="http://googleusercontent.com/file_content/1" alt="Inspira Logo" class="hero-logo">
+            </div>
+            <h1 id="hero-text-large" class="font-extrabold text-white leading-tight drop-shadow-lg font-poppins">
+                <span class="text-gradient">Inspira</span>
+            </h1>
+            <p class="mt-4 text-xl sm:text-2xl text-slate-300 font-medium max-w-3xl mx-auto drop-shadow">
+                Boost your business with a stunning website, strategic digital marketing, and a seamless e-commerce experience. We are your partner in building a strong online brand that attracts customers and drives sales.
+            </p>
+            <div class="mt-10">
+                <a href="#contact" class="bg-indigo-600 text-white font-semibold py-4 px-12 rounded-full shadow-xl hover:bg-indigo-700 transition duration-300 transform hover:scale-105">
+                    Explore Our Services
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 sm:py-24 fade-in">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl sm:text-4xl font-bold text-white font-poppins">Our Services</h2>
+            <p class="mt-4 text-lg text-slate-400 max-w-3xl mx-auto">
+                We offer a comprehensive suite of digital solutions to help your business succeed online.
+            </p>
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="bg-slate-800 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
+                    <i class="fas fa-desktop text-5xl text-indigo-400"></i>
+                    <a href="index.html"><h3 class="mt-6 text-2xl font-bold text-white font-poppins">Web Development</h3></a>
+                    <p class="mt-2 text-slate-400">Building fast, secure, and responsive websites tailored to your business needs.</p>
+                </div>
+                <!-- Service Card 2 -->
+                <div class="bg-slate-800 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
+                    <i class="fas fa-chart-line text-5xl text-purple-400"></i>
+                    <h3 class="mt-6 text-2xl font-bold text-white font-poppins">Digital Marketing</h3>
+                    <p class="mt-2 text-slate-400">Strategizing and executing campaigns to grow your brand's online presence.</p>
+                </div>
+                <!-- Service Card 3 -->
+                <div class="bg-slate-800 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
+                    <i class="fas fa-palette text-5xl text-pink-400"></i>
+                    <h3 class="mt-6 text-2xl font-bold text-white font-poppins">UI/UX Design</h3>
+                    <p class="mt-2 text-slate-400">Crafting intuitive and beautiful user interfaces that delight your customers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-16 sm:py-24 bg-slate-900 fade-in">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl sm:text-4xl font-bold text-white font-poppins">Our Projects</h2>
+            <p class="mt-4 text-lg text-slate-400 max-w-3xl mx-auto">
+                Showcasing our recent work, which serves as a testament to our skills and dedication.
+            </p>
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project Item 1 -->
+                <a href="#" class="project-card block bg-slate-800 rounded-2xl shadow-xl overflow-hidden group transition duration-300 hover:scale-105 hover:shadow-2xl">
+                    <img src="https://images.pexels.com/photos/4974914/pexels-photo-4974914.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Web Development" class="project-image w-full h-auto transform transition duration-500">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white font-poppins">Web Servicing Platform</h3>
+                        <p class="mt-2 text-slate-400 text-sm">A custom platform for clients to connect with freelance developers and designers.</p>
+                    </div>
+                </a>
+                <!-- Project Item 2 -->
+                <a href="#" class="project-card block bg-slate-800 rounded-2xl shadow-xl overflow-hidden group transition duration-300 hover:scale-105 hover:shadow-2xl">
+                    <img src="https://images.pexels.com/photos/3862632/pexels-photo-3862632.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Education" class="project-image w-full h-auto transform transition duration-500">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white font-poppins">Interactive Learning App</h3>
+                        <p class="mt-2 text-slate-400 text-sm">An innovative EdTech application focused on making complex subjects engaging and accessible.</p>
+                    </div>
+                </a>
+                <!-- Project Item 3 -->
+                <a href="#" class="project-card block bg-slate-800 rounded-2xl shadow-xl overflow-hidden group transition duration-300 hover:scale-105 hover:shadow-2xl">
+                    <img src="https://images.pexels.com/photos/5632371/pexels-photo-5632371.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="E-commerce" class="project-image w-full h-auto transform transition duration-500">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white font-poppins">Bespoke E-commerce Store</h3>
+                        <p class="mt-2 text-slate-400 text-sm">A beautifully crafted online store with a seamless user experience and secure payment integrations.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="py-16 sm:py-24 fade-in">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl sm:text-4xl font-bold text-white font-poppins">Meet Our Team</h2>
+            <p class="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">
+                We are a passionate group of creators, strategists, and problem-solvers dedicated to bringing your vision to life.
+            </p>
+
+            <!-- Core Team Section -->
+            <div class="mt-12">
+                <h3 class="text-2xl font-bold text-indigo-400 font-poppins mb-6">Core Team</h3>
+                <div class="core-team-grid">
+                    <!-- Core Team Member Cards -->
+                    <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-indigo-900 hover:shadow-2xl">
+                        <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-indigo-400 transition duration-300 bg-indigo-600 text-white text-5xl font-bold">O</div>
+                        <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Omkar</h4>
+                        <p class="text-sm text-slate-400">Chief Executive Officer</p>
+                    </div>
+                    <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-blue-900 hover:shadow-2xl">
+                        <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-blue-400 transition duration-300 bg-blue-600 text-white text-5xl font-bold">V</div>
+                        <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Vaibhavi</h4>
+                        <p class="text-sm text-slate-400">Chief Operating Officer</p>
+                    </div>
+                    <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-purple-900 hover:shadow-2xl">
+                        <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-purple-400 transition duration-300 bg-purple-600 text-white text-5xl font-bold">S</div>
+                        <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Shreyas</h4>
+                        <p class="text-sm text-slate-400">Chief Administrative Officer</p>
+                    </div>
+                    <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-pink-900 hover:shadow-2xl">
+                        <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-pink-400 transition duration-300 bg-pink-600 text-white text-5xl font-bold">A</div>
+                        <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Anish</h4>
+                        <p class="text-sm text-slate-400">Chief Technology Officer</p>
+                    </div>
+                    <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-blue-900 hover:shadow-2xl">
+                        <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-blue-400 transition duration-300 bg-blue-600 text-white text-5xl font-bold">Z</div>
+                        <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Zaid</h4>
+                        <p class="text-sm text-slate-400">Chief Marketing Officer</p>
+                    </div>
+                    <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-purple-900 hover:shadow-2xl">
+                        <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-purple-400 transition duration-300 bg-purple-600 text-white text-5xl font-bold">U</div>
+                        <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Umesh</h4>
+                        <p class="text-sm text-slate-400">Chief Financial Officer</p>
+                    </div>
+                    <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-pink-900 hover:shadow-2xl">
+                        <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-pink-400 transition duration-300 bg-pink-600 text-white text-5xl font-bold">P</div>
+                        <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Payal</h4>
+                        <p class="text-sm text-slate-400">HR</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Web Development Team -->
+            <div class="mt-12 team-accordion-item">
+                <div class="team-header">
+                    <h3 class="text-2xl font-bold text-indigo-400 font-poppins">Web Development Team</h3>
+                    <i class="fas fa-chevron-down text-indigo-400 transition-transform duration-300"></i>
+                </div>
+                <div class="team-content">
+                    <div class="sub-team-grid">
+                        <!-- Team Member Card: Rohan -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-blue-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-blue-400 transition duration-300 bg-blue-600 text-white text-5xl font-bold">R</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Rohan</h4>
+                            <p class="text-sm text-slate-400">Team Member</p>
+                        </div>
+                        <!-- Team Member Card: Aashita -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-purple-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-purple-400 transition duration-300 bg-purple-600 text-white text-5xl font-bold">A</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Aashita</h4>
+                            <p class="text-sm text-slate-400">Project Manager</p>
+                        </div>
+                        <!-- Team Member Card: Mayuri -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-pink-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-pink-400 transition duration-300 bg-pink-600 text-white text-5xl font-bold">M</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Mayuri</h4>
+                            <p class="text-sm text-slate-400">Team Member</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Digital Marketing Team -->
+            <div class="mt-4 team-accordion-item">
+                <div class="team-header">
+                    <h3 class="text-2xl font-bold text-purple-400 font-poppins">Digital Marketing Team</h3>
+                    <i class="fas fa-chevron-down text-purple-400 transition-transform duration-300"></i>
+                </div>
+                <div class="team-content">
+                    <div class="sub-team-grid">
+                        <!-- Team Member Card: Pranav (Technical Assistant) -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-blue-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-blue-400 transition duration-300 bg-blue-600 text-white text-5xl font-bold">P</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Pranav</h4>
+                            <p class="text-sm text-slate-400">Technical Assistant</p>
+                        </div>
+                        <!-- Team Member Card: Samiksha -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-purple-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-purple-400 transition duration-300 bg-purple-600 text-white text-5xl font-bold">S</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Samiksha</h4>
+                            <p class="text-sm text-slate-400">Team Member</p>
+                        </div>
+                        <!-- Team Member Card: Srushti -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-pink-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-pink-400 transition duration-300 bg-pink-600 text-white text-5xl font-bold">S</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Srushti</h4>
+                            <p class="text-sm text-slate-400">Project Manager</p>
+                        </div>
+                        <!-- Team Member Card: Chaitanya -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-indigo-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-indigo-400 transition duration-300 bg-indigo-600 text-white text-5xl font-bold">C</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Chaitanya</h4>
+                            <p class="text-sm text-slate-400">Team Member</p>
+                        </div>
+                        <!-- Team Member Card: Gaurav -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-blue-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-blue-400 transition duration-300 bg-blue-600 text-white text-5xl font-bold">G</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Gaurav</h4>
+                            <p class="text-sm text-slate-400">Team Member</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- E-commerce Team -->
+            <div class="mt-4 team-accordion-item">
+                <div class="team-header">
+                    <h3 class="text-2xl font-bold text-pink-400 font-poppins">E-commerce Team</h3>
+                    <i class="fas fa-chevron-down text-pink-400 transition-transform duration-300"></i>
+                </div>
+                <div class="team-content">
+                    <div class="sub-team-grid">
+                        <!-- Team Member Card: Saniya -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-blue-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-blue-400 transition duration-300 bg-blue-600 text-white text-5xl font-bold">S</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Saniya</h4>
+                            <p class="text-sm text-slate-400">Team Member</p>
+                        </div>
+                        <!-- Team Member Card: Safwan -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-purple-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-purple-400 transition duration-300 bg-purple-600 text-white text-5xl font-bold">S</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Safwan</h4>
+                            <p class="text-sm text-slate-400">Team Member</p>
+                        </div>
+                        <!-- Team Member Card: Ajit -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-pink-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-pink-400 transition duration-300 bg-pink-600 text-white text-5xl font-bold">A</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Ajit</h4>
+                            <p class="text-sm text-slate-400">Team Member</p>
+                        </div>
+                        <!-- Team Member Card: Pravin -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-indigo-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-indigo-400 transition duration-300 bg-indigo-600 text-white text-5xl font-bold">P</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Pravin</h4>
+                            <p class="text-sm text-slate-400">Team Member</p>
+                        </div>
+                        <!-- Team Member Card: Atmaja -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-blue-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-blue-400 transition duration-300 bg-blue-600 text-white text-5xl font-bold">A</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Atmaja</h4>
+                            <p class="text-sm text-slate-400">Team Member</p>
+                        </div>
+                        <!-- Team Member Card: Aryan -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-purple-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-purple-400 transition duration-300 bg-purple-600 text-white text-5xl font-bold">A</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Aryan</h4>
+                            <p class="text-sm text-slate-400">Team Member</p>
+                        </div>
+                        <!-- Team Member Card: Shreyash -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-pink-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-pink-400 transition duration-300 bg-pink-600 text-white text-5xl font-bold">S</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Shreyash</h4>
+                            <p class="text-sm text-slate-400">Team Member</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Teachers Section -->
+            <div class="mt-4 team-accordion-item">
+                <div class="team-header">
+                    <h3 class="text-2xl font-bold text-gray-400 font-poppins">Teachers</h3>
+                    <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"></i>
+                </div>
+                <div class="team-content">
+                    <div class="sub-team-grid">
+                        <!-- Teacher Card: HOD Vilas Gaikwad Sir -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-indigo-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-indigo-400 transition duration-300 bg-indigo-600 text-white text-5xl font-bold">VG</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Vilas Gaikwad Sir</h4>
+                            <p class="text-sm text-slate-400">Head of Department</p>
+                        </div>
+                        <!-- Teacher Card: Mentor Magar Sir -->
+                        <div class="team-card bg-slate-800 p-6 rounded-2xl shadow-xl flex flex-col items-center group transition duration-300 hover:bg-blue-900 hover:shadow-2xl">
+                            <div class="w-32 h-32 rounded-full flex items-center justify-center border-4 border-slate-700 group-hover:border-blue-400 transition duration-300 bg-blue-600 text-white text-5xl font-bold">MS</div>
+                            <h4 class="mt-6 text-xl font-semibold text-white font-poppins">Magar Sir</h4>
+                            <p class="text-sm text-slate-400">Mentor</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Testimonial Section with Carousel -->
+    <section id="testimonials" class="py-16 sm:py-24 bg-slate-900 fade-in">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl sm:text-4xl font-bold text-white font-poppins">What Our Clients Say</h2>
+            <div class="mt-12 relative max-w-2xl mx-auto">
+                <div class="testimonial-carousel-container">
+                    <div id="testimonial-carousel" class="testimonial-carousel w-full h-full">
+                        <!-- Testimonial Card 1 -->
+                        <div class="testimonial-card flex-shrink-0 p-8 rounded-xl shadow-xl bg-slate-800 text-slate-200 relative">
+                            <i class="fas fa-quote-left absolute top-4 left-4 text-4xl text-indigo-400 opacity-20"></i>
+                            <p class="text-lg italic mt-4">"Inspira has been a game-changer for our business. Their team is professional, responsive, and delivered a product that exceeded our expectations."</p>
+                            <div class="mt-6 flex items-center justify-center space-x-4">
+                                <img src="https://images.pexels.com/photos/8354719/pexels-photo-8354719.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Client Avatar" class="w-12 h-12 rounded-full object-cover">
+                                <div>
+                                    <p class="font-semibold text-white">Alex P.</p>
+                                    <p class="text-sm text-slate-400">CEO, Tech Innovators</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial Card 2 -->
+                        <div class="testimonial-card flex-shrink-0 p-8 rounded-xl shadow-xl bg-slate-800 text-slate-200 relative">
+                            <i class="fas fa-quote-left absolute top-4 left-4 text-4xl text-purple-400 opacity-20"></i>
+                            <p class="text-lg italic mt-4">"The team at Inspira transformed our online presence. The new website is not only beautiful but also highly functional and user-friendly."</p>
+                            <div class="mt-6 flex items-center justify-center space-x-4">
+                                <img src="https://images.pexels.com/photos/8277258/pexels-photo-8277258.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Client Avatar" class="w-12 h-12 rounded-full object-cover">
+                                <div>
+                                    <p class="font-semibold text-white">Sarah K.</p>
+                                    <p class="text-sm text-slate-400">Founder, Creative Agency</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial Card 3 -->
+                        <div class="testimonial-card flex-shrink-0 p-8 rounded-xl shadow-xl bg-slate-800 text-slate-200 relative">
+                            <i class="fas fa-quote-left absolute top-4 left-4 text-4xl text-pink-400 opacity-20"></i>
+                            <p class="text-lg italic mt-4">"Their attention to detail and commitment to our project was exceptional. We couldn't be happier with the results!"</p>
+                            <div class="mt-6 flex items-center justify-center space-x-4">
+                                <img src="https://images.pexels.com/photos/8354719/pexels-photo-8354719.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Client Avatar" class="w-12 h-12 rounded-full object-cover">
+                                <div>
+                                    <p class="font-semibold text-white">Mark H.</p>
+                                    <p class="text-sm text-slate-400">Project Manager, Future Solutions</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 sm:py-24 fade-in">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl sm:text-4xl font-bold text-white font-poppins">Frequently Asked Questions</h2>
+            <div class="mt-12 max-w-3xl mx-auto">
+                <div class="accordion-item">
+                    <div class="accordion-header flex justify-between items-center text-left">
+                        <h3 class="text-lg font-semibold text-white">How long does a typical project take?</h3>
+                        <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="text-slate-400">Project timelines vary based on scope and complexity. A small project may take a few weeks, while a large-scale enterprise solution could take several months. We provide a detailed timeline after our initial consultation.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header flex justify-between items-center text-left">
+                        <h3 class="text-lg font-semibold text-white">Do you offer ongoing maintenance and support?</h3>
+                        <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="text-slate-400">Yes, we offer comprehensive post-launch support and maintenance packages. We can handle everything from security updates and bug fixes to content management and new feature development.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header flex justify-between items-center text-left">
+                        <h3 class="text-lg font-semibold text-white">How can I view your pricing?</h3>
+                        <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="text-slate-400">Pricing for our services is tailored to each project's unique requirements. For a detailed quote, please reach out to us directly through the contact form below. Our dedicated pricing page is on our secondary websites.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 sm:py-24 fade-in">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl sm:text-4xl font-bold text-white font-poppins">Get In Touch</h2>
+            <p class="mt-4 text-lg text-slate-400 max-w-3xl mx-auto">
+                Have a question or a project in mind? We'd love to hear from you.
+            </p>
+            <div class="mt-12 max-w-xl mx-auto bg-slate-900 p-8 rounded-2xl shadow-2xl">
+                <!-- The form is now handled by JavaScript for a self-contained experience. -->
+                <form id="contact-form" class="space-y-6 text-left">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-slate-300">Name</label>
+                        <input type="text" id="name" name="name" required class="mt-1 block w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-indigo-500 focus:border-indigo-500 transition duration-300">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-slate-300">Email</label>
+                        <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-indigo-500 focus:border-indigo-500 transition duration-300">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-slate-300">Message</label>
+                        <textarea id="message" name="message" rows="4" required class="mt-1 block w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-indigo-500 focus:border-indigo-500 transition duration-300"></textarea>
+                    </div>
+                    <div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-3 px-6 rounded-xl shadow-md hover:bg-indigo-700 transition duration-300">Send Message</button>
+                    </div>
+                </form>
+                <div id="contact-message" class="mt-4 text-center"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-slate-900 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-xl font-bold text-white font-poppins">Inspira</h4>
+                    <p class="mt-4 text-sm text-slate-400">
+                        Empowering businesses with seamless digital solutions.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white font-poppins">Company</h4>
+                    <ul class="mt-4 space-y-2 text-sm">
+                        <li><a href="#" class="text-slate-400 hover:text-white transition-colors duration-300">About Us</a></li>
+                        <li><a href="#team" class="text-slate-400 hover:text-white transition-colors duration-300">Our Team</a></li>
+                        <li><a href="#contact" class="text-slate-400 hover:text-white transition-colors duration-300">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white font-poppins">Services</h4>
+                    <ul class="mt-4 space-y-2 text-sm">
+                        <li><a href="#services" class="text-slate-400 hover:text-white transition-colors duration-300">Web Development</a></li>
+                        <li><a href="#services" class="text-slate-400 hover:text-white transition-colors duration-300">Digital Marketing</a></li>
+                        <li><a href="#services" class="text-slate-400 hover:text-white transition-colors duration-300">UI/UX Design</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white font-poppins">Follow Us</h4>
+                    <div class="mt-4 flex justify-center space-x-4">
+                        <a href="#" class="text-slate-400 hover:text-white transition-colors duration-300" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in text-xl"></i>
+                        </a>
+                        <a href="mailto:omkarpotare826@gmail.com" class="text-slate-400 hover:text-white transition-colors duration-300" aria-label="Gmail">
+                            <i class="fas fa-envelope text-xl"></i>
+                        </a>
+                        <a href="https://www.instagram.com/____o_m_k_a_r____07/" class="text-slate-400 hover:text-white transition-colors duration-300" aria-label="Instagram">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-slate-700 pt-8">
+                <p class="text-sm text-slate-400">&copy; 2024 Inspira. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle functionality
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Intersection Observer for fade-in animations
+            const faders = document.querySelectorAll('.fade-in');
+            const appearOptions = { threshold: 0.1, rootMargin: "0px 0px -100px 0px" };
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) { return; }
+                    entry.target.classList.add('is-visible');
+                    appearOnScroll.unobserve(entry.target);
+                });
+            }, appearOptions);
+            faders.forEach(fader => { appearOnScroll.observe(fader); });
+
+            // Testimonial Carousel functionality with no manual controls
+            const carousel = document.getElementById('testimonial-carousel');
+            const testimonials = document.querySelectorAll('.testimonial-card');
+            let currentIndex = 0;
+            let interval;
+
+            function updateCarousel() {
+                const containerWidth = carousel.parentElement.offsetWidth;
+                const newPosition = -currentIndex * containerWidth;
+                carousel.style.transform = `translateX(${newPosition}px)`;
+            }
+
+            function startCarousel() {
+                interval = setInterval(() => {
+                    currentIndex = (currentIndex + 1) % testimonials.length;
+                    updateCarousel();
+                }, 5000); // Change testimonial every 5 seconds
+            }
+            
+            window.addEventListener('load', () => { updateCarousel(); startCarousel(); });
+            window.addEventListener('resize', updateCarousel);
+            carousel.parentElement.addEventListener('mouseenter', () => clearInterval(interval));
+            carousel.parentElement.addEventListener('mouseleave', () => startCarousel());
+
+            // FAQ Accordion functionality
+            document.querySelectorAll('.accordion-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    const icon = header.querySelector('i');
+                    const isContentOpen = content.classList.contains('open');
+
+                    // Close all open accordions first
+                    document.querySelectorAll('.accordion-content.open').forEach(openContent => {
+                        openContent.classList.remove('open');
+                        openContent.previousElementSibling.querySelector('i').style.transform = 'rotate(0deg)';
+                    });
+
+                    // If the clicked accordion was not open, open it
+                    if (!isContentOpen) {
+                        content.classList.add('open');
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+
+            // Team Accordion functionality
+            document.querySelectorAll('.team-accordion-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const content = item.querySelector('.team-content');
+                    const icon = item.querySelector('i');
+                    const isContentOpen = content.classList.contains('open');
+
+                    // Toggle the 'open' class on the content
+                    content.classList.toggle('open');
+                    
+                    // Rotate the icon
+                    icon.style.transform = isContentOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+                });
+            });
+
+            // Contact form submission handling
+            const contactForm = document.getElementById('contact-form');
+            const contactMessage = document.getElementById('contact-message');
+            contactForm.addEventListener('submit', function(e) {
+                // Prevent the default form submission to an external server.
+                e.preventDefault();
+                // Simulate a successful submission by showing a message.
+                contactMessage.textContent = 'Thank you for your message! We will get back to you shortly.';
+                contactMessage.classList.remove('text-red-500');
+                contactMessage.classList.add('text-green-500');
+                contactForm.reset();
+            });
+        });
+    </script>
+</body>
+</html>
